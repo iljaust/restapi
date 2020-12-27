@@ -23,7 +23,7 @@ public class HibernateConfig {
 
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://localhost/restapi");
+                settings.put(Environment.URL, "jdbc:mysql://81.109.24.164/restapi");
                 settings.put(Environment.USER, "root");
                 settings.put(Environment.PASS, "1234");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL57InnoDBDialect");
