@@ -164,6 +164,7 @@
                 <configuration>
                     <propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
                     <changeLogFile>src/main/resources/liquibase/changelog/db.changelog-master.xml</changeLogFile>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                 </configuration>
                 <executions>
                     <execution>
