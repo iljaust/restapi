@@ -44,6 +44,7 @@ public class HibernateConfig {
                         .applySettings(configuration.getProperties()).build();
 
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
