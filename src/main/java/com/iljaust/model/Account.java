@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table( name = "accounts")
-//@JsonAutoDetect
+@JsonAutoDetect
 @XmlRootElement
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Account {

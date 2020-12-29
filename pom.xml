@@ -22,13 +22,28 @@
     </dependencyManagement>
 
     <dependencies>
+
+        <!-- Jackson Annotations -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+
+
+        <!-- ModelMapper -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
         <!-- MySQL -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.21</version>
         </dependency>
-
 
         <!-- Hibernate -->
         <dependency>
@@ -41,7 +56,6 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>5.4.25.Final</version>
         </dependency>
-
 
         <!-- Liquibase -->
         <dependency>
@@ -91,7 +105,6 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.12.0</version>
         </dependency>
-
 
         <!-- Junit  /  Mockito  -->
         <dependency>

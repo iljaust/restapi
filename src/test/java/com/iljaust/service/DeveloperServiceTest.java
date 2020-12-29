@@ -14,7 +14,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -33,7 +35,7 @@ class DeveloperServiceTest {
     private static Skill skill2;
     private static Account account;
     private static Developer developer;
-    private static List<Skill> skillList;
+    private static Set<Skill> skillList;
     private static List<Developer> developerList;
 
 
@@ -52,7 +54,7 @@ class DeveloperServiceTest {
         skill.setName("C++");
         skill.setId(2l);
 
-        skillList = new ArrayList<>();
+        skillList = new HashSet<>();
 
         skillList.add(skill);
         skillList.add(skill2);

@@ -1,37 +1,34 @@
 package com.iljaust.respository.hibernate;
 
-import com.iljaust.model.Account;
-import com.iljaust.model.AccountStatus;
+
 import com.iljaust.model.Developer;
-import com.iljaust.model.Skill;
 import com.iljaust.respository.DeveloperRepository;
 import com.iljaust.util.HibernateConfig;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import java.util.ArrayList;
+import javax.transaction.Transactional;
+
 import java.util.List;
+
 
 public class DeveloperRepositoryImpl implements DeveloperRepository {
 
-    private Transaction transaction;
     private Session session;
+    @Transactional
     @Override
+
     public Developer getById(Long id) {
         try{
-            session = HibernateConfig.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
-            Developer developer = session.get(Developer.class, id);
-            transaction.commit();
+            String q = "FROM Developer d LEFT JOIN FETCH d.skillSet WHERE d.id = :id";
 
-            return developer;
+            session = HibernateConfig.getSessionFactory().openSession();
+            Query query = session.createQuery(q);
+            query.setParameter("id", id);
+
+            return (Developer) query.getSingleResult();
         }
         catch (Exception e){
-            if(transaction != null)
-                transaction.rollback();
-
             e.printStackTrace();
         }
         finally {
@@ -40,18 +37,14 @@ public class DeveloperRepositoryImpl implements DeveloperRepository {
         return null;
     }
 
+    @Transactional
     @Override
     public Developer save(Developer developer) {
         try{
             session = HibernateConfig.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
             session.save(developer);
-            transaction.commit();
         }
         catch (Exception e){
-            if(transaction != null)
-                transaction.rollback();
-
             e.printStackTrace();
         }
         finally {
@@ -60,19 +53,15 @@ public class DeveloperRepositoryImpl implements DeveloperRepository {
         return developer;
     }
 
+    @Transactional
     @Override
     public Developer update(Developer developer) {
         try{
             session = HibernateConfig.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
             session.update(developer);
-            transaction.commit();
         }
         catch (Exception e){
-            if(transaction != null)
-                transaction.rollback();
-
-            e.printStackTrace();
+             e.printStackTrace();
         }
         finally {
             session.close();
@@ -80,26 +69,18 @@ public class DeveloperRepositoryImpl implements DeveloperRepository {
         return developer;
     }
 
+    @Transactional
     @Override
     public List<Developer> getAll() {
         try{
             session = HibernateConfig.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
+            final String hql = "FROM Developer d LEFT JOIN FETCH d.skillSet";
 
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Developer> criteria = builder.createQuery(Developer.class);
-            criteria.from(Developer.class);
-            List<Developer> developers  = session.createQuery(criteria).getResultList();
-
-            transaction.commit();
-
+            @SuppressWarnings("unchecked")
+            List<Developer> developers = session.createQuery(hql).list();
             return developers;
-
         }
         catch (Exception e){
-            if(transaction != null)
-                transaction.rollback();
-
             e.printStackTrace();
         }
         finally {
@@ -108,24 +89,18 @@ public class DeveloperRepositoryImpl implements DeveloperRepository {
         return null;
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         try{
             session = HibernateConfig.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
             Developer developer = session.load(Developer.class, id);
 
             if(developer != null){
                 session.delete(developer);
             }
-
-            transaction.commit();
-
         }
         catch (Exception e){
-            if(transaction != null)
-                transaction.rollback();
-
             e.printStackTrace();
         }
         finally {

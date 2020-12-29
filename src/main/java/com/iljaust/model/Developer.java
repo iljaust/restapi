@@ -1,13 +1,14 @@
 package com.iljaust.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "developers")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonAutoDetect
 public class Developer {
     @Id
     @Column(name = "id")
@@ -15,16 +16,21 @@ public class Developer {
     private Long id;
     @Column(name = "name")
     private String name;
-    @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-    private List<Skill> skillSet;
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "Developers_Skills",
+            joinColumns = { @JoinColumn(name = "developer_id") },
+            inverseJoinColumns = { @JoinColumn(name = "skill_id") }
+    )
+    private Set<Skill> skillSet;
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id",referencedColumnName = "id")
     private Account account;
 
     public Developer() {
     }
 
-    public Developer(String name, Long id,List<Skill> skillSet, Account account){
+    public Developer(String name, Long id,Set<Skill> skillSet, Account account){
         this.name = name;
         this.id = id;
         this.skillSet = skillSet;
@@ -56,12 +62,12 @@ public class Developer {
         this.name = name;
     }
 
-    public List<Skill> getSkillSet() {
+    public Set<Skill> getSkillSet() {
 
         return skillSet;
     }
 
-    public void setSkillSet(List<Skill> skillSet) {
+    public void setSkillSet(Set<Skill> skillSet) {
 
         this.skillSet = skillSet;
     }
